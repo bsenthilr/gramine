@@ -59,9 +59,8 @@ void generateDEK() {
 }
 
 // create data
-void generateData() {
+void generateDataFile(const std::filesystem::path &fsPath) {
   std::ofstream dataFs;
-  const std::filesystem::path fsPath{dataPath + "/trialdata.txt"};
   dataFs.open(fsPath, std::ofstream::out | std::ofstream::app);
   dataFs << "353063396666383133333765333033386539373064396537633038353538383065633533326536623237366539303138656531356" << std::endl;
   dataFs.close();
@@ -79,10 +78,9 @@ int main(void) {
     dumpFile(fsPath);
 
     // Toss data to data and see if its encrypted..
-    generateData();
-    // fsPath = "test_data1";
-    // dumpFile(fsPath);
-    // std::filesystem::copy("test_data1", "hello", std::filesystem::copy_options::overwrite_existing);
-    // std::filesystem::copy("test_data2", "/data/test_data2", std::filesystem::copy_options::overwrite_existing);
+    fsPath = dataPath + "/trialdata.txt";
+    generateDataFile(fsPath);
+    std::filesystem::copy("test_data", "/data/", std::filesystem::copy_options::overwrite_existing);
+    dumpFile(fsPath);
     return 0;
 }

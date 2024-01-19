@@ -12,10 +12,10 @@ fs.mounts = [
   { path = "/lib/x86_64-linux-gnu/", uri = "file:/lib/x86_64-linux-gnu/" },    
   # binary 
   { path = "/dek", uri = "file:dek" },
-  # this key needs to be populated to /dev/attestation/keys/<key-name>
-  { path = "/data", uri = "file:/data", key_name = "dek", type = "encrypted" },
   # dek key to be sealed by mrsigner
-  { path = "/key", uri = "file:key", key_name = "_sgx_mrsigner", type = "encrypted" }
+  { path = "/key", uri = "file:key", key_name = "_sgx_mrsigner", type = "encrypted" },
+  # this key needs to be populated to /dev/attestation/keys/<key-name>
+  { path = "/data", uri = "file:data", key_name = "dek", type = "encrypted" }
 ]
 
 sgx.debug = true
