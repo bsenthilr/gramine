@@ -13,7 +13,7 @@ fs.mounts = [
   # binary 
   { path = "/dek", uri = "file:dek" },
   # this key needs to be populated to /dev/attestation/keys/<key-name>
-  { type = "encrypted", path = "/data", uri = "file:/data", key_name = "dek" },
+  { path = "/data", uri = "file:/data", key_name = "dek", type = "encrypted" },
   # dek key to be sealed by mrsigner
   { path = "/key", uri = "file:key", key_name = "_sgx_mrsigner", type = "encrypted" }
 ]
@@ -26,5 +26,6 @@ sgx.trusted_files = [
   "file:{{ gramine.libos }}",
   "file:dek",
   "file:{{ gramine.runtimedir() }}/",
-  "file:/usr/lib/x86_64-linux-gnu/libstdc++.so.6"
+  "file:/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+  "file:test_dek"
 ]
