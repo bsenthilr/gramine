@@ -1,5 +1,5 @@
 CPPFLAGS = -Wall -Wextra
-
+CXXFLAGS=-g -std=c++17 -Wall -pedantic
 ifeq ($(DEBUG),1)
 GRAMINE_LOG_LEVEL = debug
 CPPFLAGS += -g

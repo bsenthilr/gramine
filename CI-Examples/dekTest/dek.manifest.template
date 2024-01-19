@@ -1,4 +1,4 @@
-# Hello World manifest file example
+# DEK manifest file example
 
 loader.entrypoint = "file:{{ gramine.libos }}"
 libos.entrypoint = "/dek"
@@ -9,11 +9,13 @@ loader.env.LD_LIBRARY_PATH = "/lib:/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-
 fs.mounts = [
   { path = "/lib/x86_64-linux-gnu/", uri = "file:{{ gramine.runtimedir() }}" },
   { path = "/usr/lib/x86_64-linux-gnu/", uri = "file:/usr/lib/x86_64-linux-gnu/" },
-  { path = "/lib/x86_64-linux-gnu/", uri = "file:/lib/x86_64-linux-gnu/" },     
+  { path = "/lib/x86_64-linux-gnu/", uri = "file:/lib/x86_64-linux-gnu/" },    
+  # binary 
   { path = "/dek", uri = "file:dek" },
-  { path = "/secret", uri = "file:secret", key_name = "_sgx_mrsigner", type = "encrypted" },
   # this key needs to be populated to /dev/attestation/keys/<key-name>
-  { type = "encrypted", path = "/data", uri = "file:/data", key_name = "dek" }
+  { type = "encrypted", path = "/data", uri = "file:/data", key_name = "dek" },
+  # dek key to be sealed by mrsigner
+  { path = "/key", uri = "file:key", key_name = "_sgx_mrsigner", type = "encrypted" }
 ]
 
 sgx.debug = true
