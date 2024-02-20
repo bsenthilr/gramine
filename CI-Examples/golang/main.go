@@ -15,6 +15,7 @@ import (
 	"sync"
 	"syscall"
 	"time"
+	//"github.com/lesismal/llib/std/crypto/tls"
 )
 
 const RESTORE_FILENAME_ENVVAR = "RESTORE_FROM_FILE"
@@ -73,7 +74,7 @@ func connectToServer(addr string) {
 	log.SetFlags(log.Lshortfile)
 
 	conf := &tls.Config{
-		//InsecureSkipVerify: true,
+		InsecureSkipVerify: true,
 	}
 
 	conn, err := tls.Dial("tcp", addr, conf)
@@ -100,7 +101,7 @@ func connectToServer(addr string) {
 }
 
 func main() {
-	servers := [4]string{"127.0.0.1:1234", "127.0.0.1:1235", "127.0.0.1:1236", "127.0.0.1:1237"}
+	servers := [4]string{"10.65.47.197:3710", "10.65.47.197:3712", "10.65.47.197:3714", "10.65.47.197:3716"}
 
 	for _, srv := range servers {
 		fmt.Printf("Invoking client conn to srv: %v", srv)

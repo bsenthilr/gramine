@@ -1,0 +1,32 @@
+# DEK manifest file example
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "/dek"
+loader.log_level = "all" 
+#{{ log_level }}"
+
+loader.env.LD_LIBRARY_PATH = "/lib:/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/"
+
+fs.mounts = [
+  { path = "/lib/x86_64-linux-gnu/", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/usr/lib/x86_64-linux-gnu/", uri = "file:/usr/lib/x86_64-linux-gnu/" },
+  { path = "/lib/x86_64-linux-gnu/", uri = "file:/lib/x86_64-linux-gnu/" },    
+  # binary 
+  { path = "/dek", uri = "file:dek" },
+  # dek key to be sealed by mrsigner
+  { path = "/key", uri = "file:key", key_name = "_sgx_mrenclave", type = "encrypted" },
+  # this key needs to be populated to /dev/attestation/keys/<key-name>
+  { path = "/data", uri = "file:data", key_name = "dek", type = "encrypted" }
+]
+
+sgx.debug = true
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+sgx.file_check_policy = "allow_all_but_log"
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:dek",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+  "file:test_dek"
+]
