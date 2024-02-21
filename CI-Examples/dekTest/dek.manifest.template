@@ -2,8 +2,7 @@
 
 loader.entrypoint = "file:{{ gramine.libos }}"
 libos.entrypoint = "/dek"
-loader.log_level = "all" 
-#{{ log_level }}"
+loader.log_level = "{{ log_level }}"
 
 loader.env.LD_LIBRARY_PATH = "/lib:/lib/x86_64-linux-gnu/:/usr/lib/x86_64-linux-gnu/"
 

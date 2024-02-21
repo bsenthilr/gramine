@@ -13,6 +13,7 @@ CC := g++
 .PHONY: all
 all: dek dek.manifest
 ifeq ($(SGX),1)
+CPPFLAGS += -DSGX=1
 all: dek.manifest.sgx dek.sig
 endif
 
@@ -62,6 +63,10 @@ check: all
 .PHONY: clean
 clean:
 	$(RM) *.token *.sig *.manifest.sgx *.manifest dek.o dek OUTPUT
+
+.PHONY: cleankey
+cleankey:
+	$(RM) key/* data/*
 
 .PHONY: distclean
 distclean: clean
