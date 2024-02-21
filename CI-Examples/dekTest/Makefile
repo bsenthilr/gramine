@@ -66,9 +66,7 @@ clean:
 
 .PHONY: cleankey
 cleankey:
-	find key/ -type f -not -name 'stub' -delete
-	find data/ -type f -not -name 'stub' -delete
-#	$(RM) -v stub key/* data/*
+	find key/ data/ -type f -not -name 'stub' -delete
 
 .PHONY: distclean
 distclean: clean
