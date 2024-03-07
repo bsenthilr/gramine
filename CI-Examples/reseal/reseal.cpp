@@ -31,10 +31,12 @@ void unsealFilePath(const fs::path& path, bool isDirectory) {
   try {
     if (fs::exists(path)) {
       std::cout<<  path.string() << " is un sealed" << std::endl;
-      return;
     } else {
-      fs::create_directories(path.string());
+      if (isDirectory) {
+        fs::create_directories(path.string());
+      }
     }
+    return;
   } catch (std::filesystem::filesystem_error const& ex) {
     if (ex.code().value() == EACCES) {
      std::cout<<  path.string() << " is not unsealable, remove and recreate" << std::endl;
@@ -48,6 +50,7 @@ void unsealFilePath(const fs::path& path, bool isDirectory) {
         } else {
           std::cout << "number of files deleted - " << retval << std::endl;
         }
+        fs::create_directories(path.string());
       } else {
         if (!std::filesystem::remove(path.string(), errc)) {
           auto errMsg = "failed to remove unsealable file - " + path.string() + " " + errc.message();
@@ -55,7 +58,6 @@ void unsealFilePath(const fs::path& path, bool isDirectory) {
           throw std::runtime_error(errMsg);
         }
       }
-      fs::create_directories(path.string());
     } else {
       auto errMsg = "unknown error opening the file: " + path.string() + " " + ex.code().message();
       std::cout << errMsg << std::endl;
