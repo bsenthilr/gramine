@@ -27,7 +27,16 @@ const std::string blah = "dogsfadsfsadfs";
 
 namespace fs = std::filesystem;
 
-void unsealFilePath(const fs::path& path, bool isDirectory) {
+// void removeunsealdir(const fs::path& path) {
+//   try {
+//   auto retval = std::filesystem::remove_all(path.string(), errc);
+//   if ( retval == static_cast<std::uintmax_t>(-1)) {
+//   }
+//   } catch (std::filesystem::filesystem_error const& ex) {
+//   }
+// }
+
+void unsealFilePath(const fs::path& path, bool isDirectory=false) {
   try {
     if (fs::exists(path)) {
       std::cout<<  path.string() << " is un sealed" << std::endl;
@@ -67,16 +76,25 @@ void unsealFilePath(const fs::path& path, bool isDirectory) {
 }
 
 int main(void) {
-    std::cout << "dsfasdfsdump dir ####@@@@####\n";
-    if (fs::exists("/bft")) {
-      std::cout<< "dir is un sealed" << std::endl;
+    std::cout << "test dump dir \n";
+     std::error_code errc;
+    if (!fs::exists("/bft")) {
+      auto retval = std::filesystem::remove_all("/bft", errc);
+      if ( retval != static_cast<std::uintmax_t>(-1)) {
+        std::cout<< "failed to remove " << errc.message() << std::endl;
+      }
+      std::cout<< "deleted and recreated" << std::endl;
     }
-    if (fs::exists("/bft/test_data")) {
-      std::cout<< "dir is un sealed" << std::endl;
-    }
+
     unsealFilePath("/bft", true);
     
+    unsealFilePath("/bft/test_data");
     std::filesystem::copy("test_data", "/bft/test_data", std::filesystem::copy_options::overwrite_existing);
+    unsealFilePath("/bft/test_data1");
+    std::filesystem::copy("test_data", "/bft/test_data1", std::filesystem::copy_options::overwrite_existing);
+    fs::create_directories("/bft/test1");
+    unsealFilePath("/bft/test1/test_data1");
+    std::filesystem::copy("test_data", "/bft/test1/test_data1", std::filesystem::copy_options::overwrite_existing);
 
     std::cout << "muck up measurement..";
     return 0;
